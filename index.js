@@ -1,5 +1,7 @@
+const FILE_NAME = 'test.sql';
+
 const lineReader = require('readline').createInterface({
-  input: require('fs').createReadStream('test.sql')
+  input: require('fs').createReadStream(FILE_NAME)
 });
 
 let isFirstLine = true;
