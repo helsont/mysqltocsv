@@ -1,16 +1,18 @@
-const FILE_NAME = 'test.sql';
-
 const lineReader = require('readline').createInterface({
-  input: require('fs').createReadStream(FILE_NAME)
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+  // input: require('fs').createReadStream(FILE_NAME)
 });
 
 let isFirstLine = true;
 
 function splitAndTrim(string) {
   let finalValues = [];
-  string.split('|').map((elem) => {
-    let trimmed = elem.trim();
-    finalValues.push(trimmed);
+  string.replace(/ /g, '').split('|').map((elem) => {
+    if (elem) {
+      finalValues.push(elem);
+    }
   });
   return finalValues;
 }
@@ -26,6 +28,7 @@ lineReader.on('line', function (line) {
     return;
   }
   if (isFirstLine) {
+    debugger;
     headers = readHeader(line);
     isFirstLine = false;
     return;
@@ -67,9 +70,11 @@ lineReader.on('close', function (line) {
   // for (let idx = 0, len = columns.length; idx < len; idx++) {
   //   console.log(m[columns[idx]]);
   // }
-
+  if (false) {
+    console.log(headers);
+  }
   console.log(headers.join(','));
   values.map((value, idx) => {
-    console.log(idx + value.join(','));
+    console.log(value.join(','));
   });
 });
